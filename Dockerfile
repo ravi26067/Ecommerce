@@ -4,6 +4,9 @@ FROM python:3.10-slim
 # Set the working directory in the container
 WORKDIR /app
 
+# Install MySQL client libraries
+RUN apt-get update && apt-get install -y default-libmysqlclient-dev
+
 # Copy the current directory contents into container at /app
 COPY . /app
 
@@ -18,4 +21,4 @@ EXPOSE 5000
 ENV FLASK_APP=app.py
 
 # Run the Flask app
-CMD ["flask","run","--host=0.0.0.0"]
+CMD ["flask", "run", "--host=0.0.0.0"]

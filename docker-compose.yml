@@ -3,24 +3,24 @@ services:
   db:
     image: mysql:5.7
     restart: always
+    platform: linux/amd64  # Add this line to specify the architecture
     environment:
       MYSQL_ROOT_PASSWORD: root_123
       MYSQL_DATABASE: user
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root_123
     ports:
-      - "3306:3306"
+      - "3307:3306"
 
   web:
     build: .
     command: flask run --host=0.0.0.0
     volumes:
-      - ./app
+      - ./app:/app
     ports:
-      - "5000:5000"
+      - "5001:5000"
     depends_on:
       - db
     environment:
       FLASK_ENV: development
+      FLASK_APP: init:create_app
       SQLALCHEMY_DATABASE_URI: "mysql://root:root_123@db:3306/user"
       SQLALCHEMY_TRACK_MODIFICATIONS: "False"
